@@ -9,6 +9,7 @@ RUN chown node:node -R /home/node/app
 
 USER node
 WORKDIR /home/node/app
+RUN npm install
 EXPOSE 3000 
 
 ENTRYPOINT ["npm", "run", "start"]
