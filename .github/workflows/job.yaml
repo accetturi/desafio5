@@ -6,7 +6,7 @@ jobs:
         steps:
             - uses: actions/checkout@v2
             - run: docker build . -t test
-            - run: docker run -d -p 3000:3000 --rm --name test test
+            - run: docker run -d -p 3000:3000 --name test test
             - run: docker ps
             - run: sleep 30
             - run: docker ps
