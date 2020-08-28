@@ -1,0 +1,13 @@
+name: CI
+on: [push, pull_request]
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - run: export DOCKERIZE_VERSION v0.6.1
+            - run: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+            - run: docker build . -t test
+            - run: docker run -d -p 3000:3000 --rm test
+            - run: dockerize -timeout=200s -wait=http://localhost:3000/api
+            - run: docker exec test npm run test
